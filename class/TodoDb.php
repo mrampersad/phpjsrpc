@@ -3,9 +3,12 @@
 class TodoDb {
     protected $db;
 
-    public function __construct() {
+    public function __construct($path = 'todo.sqlite3') {
+        $exist = file_exists($path);
         $this->db = new sqlite3('todo.sqlite3');
-        //$db->query("CREATE TABLE todo (id INTEGER PRIMARY KEY, name CHAR(100), done BOOL)");
+        if(!$exist) {
+            $this->db->query("CREATE TABLE todo (id INTEGER PRIMARY KEY, name CHAR(100), done BOOL)");
+        }
     }
 
     public function loadTodos() {
